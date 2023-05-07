@@ -85,17 +85,19 @@ def formatted_print(data, str):
     print("Cov(t1, cnt): {}".format(cov))
 
 
-
 def q1(db_path):
     categories, data = build_categories_and_data_lists(db_path)
     formatted_print(filter_data(data, filter_summer), "Summer")
     formatted_print(filter_data(data, filter_holiday), "Holiday")
     formatted_print(data,"All")
-def main():
-    q1("london_sample.csv")
+
+
+def main(argv):
+    print(argv)
+    # q1("london_sample.csv")
 
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv)
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
