@@ -7,24 +7,23 @@ def load_data(path,features):
     return data
 
 def filter_by_feature(data, feature, values):
-    london_example_len = 3484
     data1 = data.copy()
     data2 = data.copy()
-    for i in range (london_example_len):
+    for i in range (len(data["cnt"])):
         if data[feature][i] in values:
             for k in ["cnt"",hum","t1","is_holiday","season"]:
                 data2[k].remove(data[k][i])
         else:
             for k in ["cnt"",hum", "t1", "is_holiday", "season"]:
-                data2[k].remove(data[k][i])
+                data1[k].remove(data[k][i])
     return data1,data2
 
 def print_details(data, features, statistic_functions):
     temp = []
-    for x in features:
+    for feature in features:
         for y in statistic_functions:
-            temp.append(statistic_functions(x),)
-        println("x:", ','.join(temp))
+            temp.append(y(x))
+        print(feature,":", ','.join(temp))
         temp.clear()
     return()
 
