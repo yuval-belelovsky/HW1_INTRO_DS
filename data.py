@@ -13,7 +13,7 @@ def load_data(path,features):
 """
 
 
-def filter_by_feature(data, feature, values):
+def filter_by_feature(data, features, feature, values):
     data1 = deep_copy_data(data)
     data2 = deep_copy_data(data)
     for i in range(len(data[feature])):
