@@ -14,14 +14,17 @@ def load_data(path,features):
 
 
 def filter_by_feature(data, feature, values):
-    data1 = {"cnt": [], "hum": [], "t1": [], "is_holiday": [], "season": []}
-    data2 = {"cnt": [], "hum": [], "t1": [], "is_holiday": [], "season": []}
+    data1 = deep_copy_data(data)
+    data2 = deep_copy_data(data)
+    for k in data:
+        data1[k] = []
+        data2[k] = []
     for i in range(len(data[feature])):
         if data[feature][i] in values:
-            for k in ["cnt", "hum", "t1", "is_holiday", "season"]:
+            for k in data:
                 data1[k].append(data[k][i])
         else:
-            for k in ["cnt", "hum", "t1", "is_holiday", "season"]:
+            for k in data:
                 data2[k].append(data[k][i])
     return data1, data2
 
