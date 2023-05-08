@@ -23,12 +23,14 @@ def print_details(data, features, statistic_functions):
     for feature in features:
         for y in statistic_functions:
             temp.append(y(x))
-        print(feature,":", ','.join(temp))
+        print(feature,": ", ','.join(temp))
         temp.clear()
     return()
 
 
 def print_joint_details(data, features, statistic_functions, statistic_functions_names):
-
+    for function in statistic_functions:
+        print(statistic_functions_names[function],"(",features[1],",",features[2],"): ",function(features[1],features[2]))
+    return()
 
 
