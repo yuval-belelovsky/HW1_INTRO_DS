@@ -50,3 +50,18 @@ def calc_covariance(values1, values2):
     for (value1, value2) in zip(values1, values2):
         s += (value1 - avg1) * (value2- avg2)
     return s / (len(values1)-1)
+
+def population_statistics(feature_description, data, treatment, target, threshold, is_above, statistic_functions):
+    print("{}:".format(feature_description))
+    values = []
+    print("{}: ".format(target))
+    for treatment, target in zip(data[treatment], data[target]):
+        treatment = float(treatment)
+        if is_above:
+            if treatment > threshold:
+                values.append(target)
+        else:
+            if treatment <= threshold:
+                values.append(target)
+    results = [function(values) for function in statistic_functions]
+    print(",".join(results))

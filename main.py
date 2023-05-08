@@ -1,103 +1,41 @@
 import sys
 import statistics
+import data as dt
 
+def q1(db_path, features):
+    print("Question 1:")
+    data = dt.load_data(db_path, features)
+    q1_features = {"hum", "t1", "cnt"}
+    summer_data = dt.filter_by_feature(data, "season", {"1"})
+    holiday_data = dt.filter_by_feature(data, "is_holiday", {"1"})
+    q1_statistic_funcs = {statistics.calc_mean, statistics.calc_stdv}
+    for data_i, data_name in zip([summer_data, holiday_data, data], ["Summer", "Holiday", "All"]):
+        print("{}:".format(data_name))
+        dt.print_details(data_i, q1_features, q1_statistic_funcs)
+        dt.print_joint_details(data, {"t1","cnt"}, statistics.calc_covariance,"Cov")
 
-CATEGORY_INDEXES = {
-    "timestamp" : 0,
-    "cnt" : 1,
-    "t1" : 2,
-    "t2" : 3,
-    "hum" : 4,
-    "wind_speed" : 5,
-    "weather_code" : 6,
-    "is_holiday" : 7,
-    "is_weekend" : 8,
-    "season" : 9
-}
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-"""
-    returns the categories and data rows as lists, via the csv file path.
-"""
-
-
-def build_categories_and_data_lists(db_path):
-    london_db = open(db_path,"r")
-    london_db_text = london_db.read()
-    data_catgories = london_db_text[:london_db_text.find('\n')].split(',')
-    london_db_text = london_db_text[london_db_text.find('\n')+1:]
-    data = london_db_text.split('\n')
-    data = [row.split(',') for row in data][:-1]
-    return data_catgories, data
-
-
-"""
-    returns the data list by the category name
-"""
-
-
-def get_lst_by_name(data, name):
-    return [row[CATEGORY_INDEXES[name]] for row in data]
-
-# returns true if value season = 1 and holiday = 1
-
-
-def filter_summer(row):
-    return row[CATEGORY_INDEXES["season"]] == "1"
-
-
-def filter_holiday(row):
-    return row[CATEGORY_INDEXES["is_holiday"]] == "1"
-
-
-"""
-    return a new list containing only the values fitting through the filter.    
-"""
-
-
-def filter_data(data, filter):
-    filtered_data = []
-    for row in data:
-        if filter(row):
-            filtered_data.append(row)
-    return filtered_data
-
-"""
-    prints in the requested format, recieving the relevant data and the str (summer or holiday)
-"""
-def formatted_print(data, str):
-    hum = get_lst_by_name(data,"hum")
-    t1 = get_lst_by_name(data,"t1")
-    cnt = get_lst_by_name(data,"cnt")
-    categories_to_print = ["hum", "t1", "cnt"]
-    categories_to_print_lsts = [hum, t1, cnt]
-    print(str + ":")
-    for cat_name, cat_lst in zip(categories_to_print, categories_to_print_lsts):
-        mean = statistics.calc_mean(cat_lst)
-        stdv = statistics.calc_stdv(cat_lst)
-        mean  = "{:.2f}".format(mean)
-        stdv = "{:.2f}".format(stdv)
-        print("{}: {}, {}".format(cat_name, mean, stdv))
-    cov = statistics.calc_covariance(t1, cnt)
-    cov = "{:.2f}".format(cov)
-    print("Cov(t1, cnt): {}".format(cov))
-
-
-def q1(db_path):
-    categories, data = build_categories_and_data_lists(db_path)
-    formatted_print(filter_data(data, filter_summer), "Summer")
-    formatted_print(filter_data(data, filter_holiday), "Holiday")
-    formatted_print(data,"All")
+def q2(path, features):
+    print("Question 2:")
+    data = dt.load_data(path, features)
+    data = dt.filter_by_feature(data, "season", {"3"})
+    q2_features = {"cnt"}
+    holiday_data, weekday_data = dt.filter_by_feature(data, "is_holiday", {"1"})
+    print("if t1 <= 13.0, then:")
+    statistics.population_statistics("Winter holiday records:", holiday_data, "t1", "cnt", 13.0, False,
+                                     [statistics.calc_mean, statistics.calc_stdv])
+    statistics.population_statistics("Winter holiday records:", weekday_data, "t1", "cnt", 13.0, False,
+                                     [statistics.calc_mean, statistics.calc_stdv])
+    print("if t1 >= 13.0, then:")
+    statistics.population_statistics("Winter holiday records:", holiday_data, "t1", "cnt", 13.0, True,
+                                     [statistics.calc_mean, statistics.calc_stdv])
+    statistics.population_statistics("Winter holiday records:", weekday_data, "t1", "cnt", 13.0, True,
+                                     [statistics.calc_mean, statistics.calc_stdv])
 
 
 def main(argv):
     print(argv)
-    # q1("london_sample.csv")
+    q1("london_sample.csv")
 
 
 if __name__ == '__main__':
     main(sys.argv)
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
