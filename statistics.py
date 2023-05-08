@@ -27,6 +27,8 @@ def calc_mean(values):
 
 
 def calc_stdv(values):
+    if len(values) == 1:
+        return 0
     values = cast_values(values)
     avg = calc_mean(values)
     s = 0  # summation variable
@@ -52,9 +54,9 @@ def calc_covariance(values1, values2):
     return s / (len(values1)-1)
 
 def population_statistics(feature_description, data, treatment, target, threshold, is_above, statistic_functions):
-    print("{}:".format(feature_description))
+    print("{}".format(feature_description))
     values = []
-    print("{}: ".format(target))
+    print("{}: ".format(target), end="")
     for treatment, target in zip(data[treatment], data[target]):
         treatment = float(treatment)
         if is_above:
@@ -64,4 +66,4 @@ def population_statistics(feature_description, data, treatment, target, threshol
             if treatment <= threshold:
                 values.append(target)
     results = [function(values) for function in statistic_functions]
-    print(",".join(results))
+    print(",".join([str(x) for x in results]))
