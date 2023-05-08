@@ -1,20 +1,36 @@
 import pandas
 
-
-
 def load_data(path,features):
     df = pandas.read_csv(path)
     data = df.to_dict(orient="list")
+    relevant=["cnt"",hum","t1","is_holiday","season"]
+    data = {x:data[x] for x in relevant}
+    return data
 
 def filter_by_feature(data, feature, values):
-    pass
-
+    london_example_len = 3484
+    data1 = data.copy()
+    data2 = data.copy()
+    for i in range (london_example_len):
+        if data[feature][i] in values:
+            for k in ["cnt"",hum","t1","is_holiday","season"]:
+                data2[k].remove(data[k][i])
+        else:
+            for k in ["cnt"",hum", "t1", "is_holiday", "season"]:
+                data2[k].remove(data[k][i])
+    return data1,data2
 
 def print_details(data, features, statistic_functions):
-    pass
+    temp = []
+    for x in features:
+        for y in statistic_functions:
+            temp.append(statistic_functions(x),)
+        println("x:", ','.join(temp))
+        temp.clear()
+    return()
 
 
-def print_joint_details(data, features,  statistic_functions,  statistic_functions_names):
-    pass
+def print_joint_details(data, features, statistic_functions, statistic_functions_names):
+
 
 
