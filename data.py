@@ -3,8 +3,7 @@ import pandas
 def load_data(path,features):
     df = pandas.read_csv(path)
     data = df.to_dict(orient="list")
-    relevant=["cnt"",hum","t1","is_holiday","season"]
-    data = {x:data[x] for x in relevant}
+    data = {x:data[x] for x in features}
     return data
 
 def filter_by_feature(data, feature, values):
