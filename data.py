@@ -13,17 +13,29 @@ def load_data(path,features):
 """
 
 
-def filter_by_feature(data, features, feature, values):
-    data1 = deep_copy_data(data)
-    data2 = deep_copy_data(data)
+def filter_by_feature(data, feature, values):
+    data1 = {"cnt": [], "hum": [], "t1": [], "is_holiday": [], "season": []}
+    data2 = {"cnt": [], "hum": [], "t1": [], "is_holiday": [], "season": []}
     for i in range(len(data[feature])):
         if data[feature][i] in values:
-            for k in ["cnt","hum","t1","is_holiday","season"]:
-                data2[k].remove(data[k][i])
+            for k in ["cnt", "hum", "t1", "is_holiday", "season"]:
+                data1[k].append(data[k][i])
         else:
-            for k in ["cnt","hum", "t1", "is_holiday", "season"]:
-                data1[k].remove(data[k][i])
-    return data1,data2
+            for k in ["cnt", "hum", "t1", "is_holiday", "season"]:
+                data2[k].append(data[k][i])
+    return data1, data2
+
+
+
+
+        # data1 = deep_copy_data(data)
+        #data2 = deep_copy_data(data)
+        #    if data[feature][i] in values:
+        #        for k in ["cnt","hum","t1","is_holiday","season"]:
+        #       data2[k].remove(data[k][i])
+        # else:
+        #   for k in ["cnt","hum", "t1", "is_holiday", "season"]:
+        #        data1[k].remove(data[k][i])
 
 """
     prints the value of the statistic methods for each feature
@@ -47,7 +59,7 @@ def print_details(data, features, statistic_functions):
 def print_joint_details(data, features, statistic_functions, statistic_functions_names):
     values = [data[feature] for feature in features]
     for function, function_name in zip(statistic_functions, statistic_functions_names):
-        print("{}({}): {}".format(function_name,", ".join(features),function(*values)))
+        print("{}({}): {}".format(function_name,", ".join(features),"%.2f" % function(*values)))
 
 
 def deep_copy_data(data):

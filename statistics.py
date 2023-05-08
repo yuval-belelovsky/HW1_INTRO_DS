@@ -66,4 +66,4 @@ def population_statistics(feature_description, data, treatment, target, threshol
             if treatment <= threshold:
                 values.append(target)
     results = [function(values) for function in statistic_functions]
-    print(",".join([str(x) for x in results]))
+    print(",".join([str("%.2f" % x) for x in results]))
